@@ -1,0 +1,27 @@
+{
+  "name": "Form autofill",
+  "description": "Fills forms for prod testing",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": ["*://*.skyeng.ru/*"],
+  "permissions": ["storage", "activeTab", "scripting"],
+  "incognito": "spanning",
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "/images/icon.png",
+      "32": "/images/icon.png",
+      "48": "/images/icon.png",
+      "128": "/images/icon.png"
+    }
+  },
+  "icons": {
+    "16": "/images/icon.png",
+    "32": "/images/icon.png",
+    "48": "/images/icon.png",
+    "128": "/images/icon.png"
+  }
+}
