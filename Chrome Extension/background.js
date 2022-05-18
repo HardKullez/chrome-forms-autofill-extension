@@ -18,10 +18,10 @@ chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
   }
 })
 
-  ; (async () => {
-    console.log((await chrome.tabs.query({})).filter(tab => tab.url))
+// ; (async () => {
+//   console.log((await chrome.tabs.query({})).filter(tab => tab.url))
 
-  })();
+// })();
 
 async function updateTabs() {
   const tabs = await chrome.tabs.query({ url: "*://*.skyeng.ru/*", active: true })
