@@ -1,4 +1,5 @@
-{
+// might have used block scope, but var leaks outside and function declaration without strict mode too
+(function () {
   const fields = {
     username: document.getElementsByName('name'),
     email: document.getElementsByName('email'),
@@ -13,4 +14,4 @@
       }
     }
   })
-}
+})()
