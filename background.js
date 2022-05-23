@@ -6,11 +6,11 @@ chrome.runtime.onInstalled.addListener(() => {
     timeout: 1
   }
   chrome.storage.sync.set({ ...defaults })
-  updateTabs()
+  updateActiveTabs()
 })
 
 chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
-  if (info.status == 'complete' && tab.url) {
+  if (info.status == 'complete' && !info.discarded && tab.url) {
     chrome.scripting.executeScript({
       target: { tabId },
       function: updateFieldsOnPageLoad
@@ -18,22 +18,15 @@ chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
   }
 })
 
-// ; (async () => {
-//   console.log((await chrome.tabs.query({})).filter(tab => tab.url))
-
-// })();
-
-async function updateTabs() {
-  const tabs = await chrome.tabs.query({ url: "*://*.skyeng.ru/*", active: true })
-
-  if (!tabs.length) return
-
-  for (let tab of tabs) {
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      files: ['scripts/updateCurrentTab.js']
+function updateActiveTabs() {
+  chrome.tabs.query({ url: "*://*.skyeng.ru/*" }, tabs => {
+    tabs.filter(tab => tab.status === 'complete' && !tab.discarded).forEach(tab => {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        files: ['scripts/updateTabFormFields.js']
+      })
     })
-  }
+  })
 }
 
 function updateFieldsOnPageLoad() {
@@ -54,8 +47,7 @@ function updateFieldsOnPageLoad() {
     }, 500)
 
     setTimeout(() => {
-      console.log('timeout killed')
       clearInterval(id)
     }, data.timeout * 1000)
   })
-}
+} 

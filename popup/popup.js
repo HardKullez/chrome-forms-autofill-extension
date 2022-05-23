@@ -33,15 +33,13 @@ changeTimeout.addEventListener('input', (e) => {
   }
 })
 
-async function updateTabs() {
-  const tabs = await chrome.tabs.query({ url: "*://*.skyeng.ru/*" })
-
-  if (!tabs.length) return
-
-  for (let tab of tabs) {
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      files: ['scripts/updateCurrentTab.js']
+function updateTabs() {
+  chrome.tabs.query({ url: "*://*.skyeng.ru/*" }, tabs => {
+    tabs.filter(tab => tab.status === 'complete' && !tab.discarded).forEach(tab => {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        files: ['scripts/updateTabFormFields.js']
+      })
     })
-  }
-}
+  })
+} 

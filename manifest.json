@@ -1,6 +1,6 @@
 {
-  "name": "Form autofill",
-  "description": "Fills forms for prod testing",
+  "name": "Forms autofill",
+  "description": "Autofill form fields for development tests",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
@@ -24,4 +24,4 @@
     "48": "/images/icon.png",
     "128": "/images/icon.png"
   }
-}
+} 
